@@ -9,7 +9,7 @@ lspf = []
 lookup = []
 mxlookup = []
 
-#First Lookup of Domain Passed as Argument - Added to lookup list 
+#First Lookup of Domain Passed as Argument - Added to lookup list
 lookup.append(sys.argv[1])
 
 #Primary Loop for processing initial DNS lookup and itterating through includes
@@ -27,7 +27,7 @@ while lookup:
         lspf = re.split('\s|:', str(server))
         spf = [s.strip('"') for s in lspf]
         print '\n' + Q + ' Record: ' + ' '.join(spf) + '\n'
-#Loop to look at all elements of the returned record        
+#Loop to look at all elements of the returned record
         for i in range(0, len(spf)):
             if spf[0] != 'v=spf1' and Q != "A":
                 print "No spf\n"
@@ -35,12 +35,12 @@ while lookup:
             elif spf[i] == "include":
                 lookup.append(spf[i+1])
                 x = x+1
-#Add MX "A" records to lookup and mxlookup so their query can be handled properly                
+#Add MX "A" records to lookup and mxlookup so their query can be handled properly
             elif spf[i] == "a":
                 lookup.append(spf[i+1])
                 mxlookup.append(spf[i+1])
                 x = x+1
-#Print the IPv4 addresses in an easily copiable block                
+#Print the IPv4 addresses in an easily copiable block
             elif spf[i] == "ip4":
                 print spf[i+1]
             elif Q == "A":
