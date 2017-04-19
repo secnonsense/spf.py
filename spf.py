@@ -32,7 +32,7 @@ while lookup:
             if spf[0] != 'v=spf1' and Q != "A":
                 print "No spf\n"
 #Add includes to lookup for further processing and increment counter
-            elif "include" in spf[i]:
+            elif "include:" in spf[i]:
                 inc = spf[i].split(":")
                 lookup.append(inc[1])
                 x = x+1
