@@ -10,7 +10,7 @@ lookup = []
 mxlookup = []
 
 #First Lookup of Domain Passed as Argument - Added to lookup list
-lookup.append("mailgun.com")
+lookup.append(sys.argv[1])
 
 #Primary Loop for processing initial DNS lookup and itterating through includes
 while lookup:
@@ -37,9 +37,10 @@ while lookup:
                 lookup.append(inc[1])
                 x = x+1
 #Add MX "A" records to lookup and mxlookup so their query can be handled properly
-            elif spf[i] == "a":
-                lookup.append(spf[i+1])
-                mxlookup.append(spf[i+1])
+            elif "a:" in spf[i]:
+                mx = spf[i].split(":")
+                lookup.append(mx[1])
+                mxlookup.append(mx[1])
                 x = x+1
 #Print the IPv4 addresses in an easily copiable block
             elif "ip4:" in spf[i]:
