@@ -21,7 +21,7 @@ while lookup:
         Q = "TXT"
 #DNS query and print domain name being processed
     answers = dns.resolver.query(lookup[y], Q)
-    print "\ndomain block:  " + lookup[y] + "\n"
+    print "\ndomain block:  " + lookup[y]
 
     for server in answers:
         lspf = re.split('\s', str(server))
