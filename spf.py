@@ -9,10 +9,7 @@ if len(sys.argv) < 2:
     quit()
 
 x = y = 0
-spf = []
-lspf = []
-lookup = []
-mxlookup = []
+spf, lspf, lookup, mxlookup = ([] for z in range(4))
 
 #First Lookup of Domain Passed as Argument - Added to lookup list
 lookup.append(sys.argv[1])
