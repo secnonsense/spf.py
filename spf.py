@@ -3,6 +3,11 @@
 #uses dnspython - http://www.dnspython.org/
 import sys, re, dns.resolver
 
+if len(sys.argv) < 2:
+    print "\nThis script recursively looks for spf records for a given domain name."
+    print "\nUsage: ./spf.py domain.com\n"
+    quit()
+
 x = y = 0
 spf = []
 lspf = []
