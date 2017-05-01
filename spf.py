@@ -46,11 +46,11 @@ while lookup:
                 lookup.append(a[1])
                 alookup.append(a[1])
                 x = x+1
-            elif spf[i] == "mx":
+            elif spf[i] == "mx" or spf[i] == "+mx":
                 lookup.append(lookup[y])
                 mxlookup.append(lookup[y])
                 x = x+1
-            elif spf[i] == "a":
+            elif spf[i] == "a" or spf[i] == "+a":
                 lookup.append(lookup[y])
                 alookup.append(lookup[y])
                 x = x+1
