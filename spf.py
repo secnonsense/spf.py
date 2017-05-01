@@ -3,21 +3,20 @@
 #uses dnspython - http://www.dnspython.org/
 import sys, re, dns.resolver
 
-#if len(sys.argv) < 2:
-#    print "\nThis script recursively looks for spf records for a given domain name."
-#    print "\nUsage: ./spf.py domain.com\n"
-#    quit()
+if len(sys.argv) < 2:
+    print "\nThis script recursively looks for spf records for a given domain name."
+    print "\nUsage: ./spf.py domain.com\n"
+    quit()
 
 x = y = 0
 spf, lspf, lookup, alookup, mxlookup = ([] for z in range(5))
 
 #First Lookup of Domain Passed as Argument - Added to lookup list
-#lookup.append(sys.argv[1])
-lookup.append("salesforce.com")
+lookup.append(sys.argv[1])
 
 #Primary Loop for processing initial DNS lookup and itterating through includes
 while lookup:
-#Choose Record type of lookup 
+#Choose Record type of lookup
     if lookup[y] in alookup:
         Q = "A"
     elif lookup[y] in mxlookup:
