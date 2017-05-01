@@ -3,22 +3,25 @@
 #uses dnspython - http://www.dnspython.org/
 import sys, re, dns.resolver
 
-if len(sys.argv) < 2:
-    print "\nThis script recursively looks for spf records for a given domain name."
-    print "\nUsage: ./spf.py domain.com\n"
-    quit()
+#if len(sys.argv) < 2:
+#    print "\nThis script recursively looks for spf records for a given domain name."
+#    print "\nUsage: ./spf.py domain.com\n"
+#    quit()
 
 x = y = 0
-spf, lspf, lookup, mxlookup = ([] for z in range(4))
+spf, lspf, lookup, alookup, mxlookup = ([] for z in range(5))
 
 #First Lookup of Domain Passed as Argument - Added to lookup list
-lookup.append(sys.argv[1])
+#lookup.append(sys.argv[1])
+lookup.append("salesforce.com")
 
 #Primary Loop for processing initial DNS lookup and itterating through includes
 while lookup:
-#Choose Record type of lookup - A for MX Records and TXT for SPF
-    if lookup[y] in mxlookup:
+#Choose Record type of lookup 
+    if lookup[y] in alookup:
         Q = "A"
+    elif lookup[y] in mxlookup:
+        Q = "MX"
     else:
         Q = "TXT"
 #DNS query and print domain name being processed
@@ -31,19 +34,28 @@ while lookup:
         print '\n' + Q + ' Record: ' + ' '.join(spf) + '\n'
 #Loop to look at all elements of the returned record
         for i in range(0, len(spf)):
-            if spf[0] != 'v=spf1' and Q != "A":
+            if spf[0] != 'v=spf1' and Q != "A" and Q != "MX":
                 print "No spf\n"
 #Add includes to lookup for further processing and increment counter
             elif "include:" in spf[i]:
                 inc = spf[i].split(":")
                 lookup.append(inc[1])
                 x = x+1
-#Add MX "A" records to lookup and mxlookup so their query can be handled properly
+#Add a "A" records to lookup and alookup so their query can be handled properly
             elif "a:" in spf[i]:
-                mx = spf[i].split(":")
-                lookup.append(mx[1])
-                mxlookup.append(mx[1])
+                a = spf[i].split(":")
+                lookup.append(a[1])
+                alookup.append(a[1])
                 x = x+1
+            elif spf[i] == "mx":
+                lookup.append(lookup[y])
+                mxlookup.append(lookup[y])
+                x = x+1
+            elif spf[i] == "a":
+                lookup.append(lookup[y])
+                alookup.append(lookup[y])
+                x = x+1
+
 #Print the IPv4 addresses in an easily copiable block
             elif "ip4:" in spf[i]:
                 ip = spf[i].split(":")
@@ -53,6 +65,10 @@ while lookup:
                 print ip6[4:]
             elif Q == "A":
                 print spf[i]
+            elif Q == "MX" and len(spf[i]) > 3:
+                lookup.append(spf[i])
+                alookup.append(spf[i])
+                x = x+1
 #Counter to be sure we don't loop beyond the end of the lookup list
     y = y+1
     if y > x:
