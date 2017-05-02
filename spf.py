@@ -23,7 +23,7 @@ while lookup:
         Q = "MX"
     else:
         Q = "TXT"
-#DNS query and print domain name being processed
+#DNS query and print domain name being processed while handling any error exceptions
     try:
         answers = dns.resolver.query(lookup[y], Q)
     except dns.resolver.NXDOMAIN:
