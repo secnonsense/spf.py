@@ -71,4 +71,5 @@ while lookup:
 #Counter to be sure we don't loop beyond the end of the lookup list
     y = y+1
     if y > x:
+        print "\n"
         quit()
