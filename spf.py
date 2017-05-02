@@ -30,10 +30,10 @@ while lookup:
         print "\nNo such domain %s" % lookup[y] + "\n"
         quit()
     except dns.resolver.NoNameservers:
-        print "\nNo Nameservers for domain %s" % lookup[y] + "\n"
+        print "\nNo answers for domain %s" % lookup[y] + " for " + Q + " record query\n"
         quit()
     except dns.resolver.NoAnswer:
-        print "\nNo answer for domain %s" % lookup[y] + "\n"
+        print "\nNo " + Q + " record answer for domain %s" % lookup[y] + "\n"
         quit()
     print "\ndomain block:  " + lookup[y]
 
