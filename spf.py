@@ -24,7 +24,17 @@ while lookup:
     else:
         Q = "TXT"
 #DNS query and print domain name being processed
-    answers = dns.resolver.query(lookup[y], Q)
+    try:
+        answers = dns.resolver.query(lookup[y], Q)
+    except dns.resolver.NXDOMAIN:
+        print "\nNo such domain %s" % lookup[y] + "\n"
+        quit()
+    except dns.resolver.NoNameservers:
+        print "\nNo Nameservers for domain %s" % lookup[y] + "\n"
+        quit()
+    except dns.resolver.NoAnswer:
+        print "\nNo answer for domain %s" % lookup[y] + "\n"
+        quit()
     print "\ndomain block:  " + lookup[y]
 
     for server in answers:
