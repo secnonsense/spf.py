@@ -51,7 +51,7 @@ while lookup:
                 lookup.append(inc[1])
                 x = x+1
 #Add a "A" records to lookup and alookup so their query can be handled properly
-            elif "a:" in spf[i].lower():
+            elif "a:" in spf[i].lower() and "ip6" not in spf[i].lower():
                 a = spf[i].split(":")
                 lookup.append(a[1])
                 alookup.append(a[1])
@@ -68,7 +68,10 @@ while lookup:
 #Print the IPv4 addresses in an easily copiable block
             elif "ip4:" in spf[i].lower():
                 ip = spf[i].split(":")
-                print ip[1]
+                if "/" not in ip[1]:
+                    print ip[1] + "/32"
+                else:
+                    print ip[1]
             elif "ip6:" in spf[i].lower():
                 ip6 = spf[i]
                 print ip6[4:]
