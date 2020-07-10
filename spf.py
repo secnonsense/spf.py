@@ -40,7 +40,7 @@ while lookup:
     for server in answers:
         lspf = re.split('\s', str(server))
         spf = [s.strip('"') for s in lspf]
-        print '\n' + Q + ' Record: ' + ' '.join(spf) + '\n'
+        print('\n' + Q + ' Record: ' + ' '.join(spf) + '\n')
 #Loop to look at all elements of the returned record
         for i in range(0, len(spf)):
             if spf[0] != 'v=spf1' and Q != "A" and Q != "MX":
