@@ -4,8 +4,8 @@
 import sys, re, dns.resolver
 
 if len(sys.argv) < 2:
-    print "\nThis script recursively looks for spf records for a given domain name."
-    print "\nUsage: ./spf.py domain.com\n"
+    print("\nThis script recursively looks for spf records for a given domain name.")
+    print("\nUsage: ./spf.py domain.com\n")
     quit()
 
 x = y = 0
@@ -27,15 +27,15 @@ while lookup:
     try:
         answers = dns.resolver.query(lookup[y], Q)
     except dns.resolver.NXDOMAIN:
-        print "\nNo such domain %s" % lookup[y] + "\n"
+        print("\nNo such domain %s" % lookup[y] + "\n")
         quit()
     except dns.resolver.NoNameservers:
-        print "\nNo answers for domain %s" % lookup[y] + " for " + Q + " record query\n"
+        print("\nNo answers for domain %s" % lookup[y] + " for " + Q + " record query\n")
         quit()
     except dns.resolver.NoAnswer:
-        print "\nNo " + Q + " record answer for domain %s" % lookup[y] + "\n"
+        print("\nNo " + Q + " record answer for domain %s" % lookup[y] + "\n")
         quit()
-    print "\ndomain block:  " + lookup[y]
+    print("\ndomain block:  " + lookup[y])
 
     for server in answers:
         lspf = re.split('\s', str(server))
@@ -44,7 +44,7 @@ while lookup:
 #Loop to look at all elements of the returned record
         for i in range(0, len(spf)):
             if spf[0] != 'v=spf1' and Q != "A" and Q != "MX":
-                print "No spf\n"
+                print("No spf\n")
 #Add includes to lookup for further processing and increment counter
             elif "include:" in spf[i]:
                 inc = spf[i].split(":")
@@ -69,20 +69,21 @@ while lookup:
             elif "ip4:" in spf[i].lower():
                 ip = spf[i].split(":")
                 if "/" not in ip[1]:
-                    print ip[1] + "/32"
+                    print(ip[1] + "/32")
                 else:
-                    print ip[1]
+                    print(ip[1])
             elif "ip6:" in spf[i].lower():
                 ip6 = spf[i]
-                print ip6[4:]
+                print(ip6[4:])
             elif Q == "A":
-                print spf[i]
+                print(spf[i])
             elif Q == "MX" and len(spf[i]) > 3:
                 lookup.append(spf[i])
                 alookup.append(spf[i])
                 x = x+1
 #Counter to be sure we don't loop beyond the end of the lookup list
     y = y+1
+    print("\n=====================================")
     if y > x:
-        print "\n"
+        print("\n")
         quit()
