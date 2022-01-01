@@ -66,7 +66,7 @@ def lookup_loop(lookup,x,y,spf,lspf,alookup,mxlookup):
                     ip6 = spf[i]
                     print(ip6[4:])
                 elif Q == "A":
-                    print(spf[i])
+                    print(spf[i] + "/32")
                 elif Q == "MX" and len(spf[i]) > 3:
                     lookup.append(spf[i])
                     alookup.append(spf[i])
