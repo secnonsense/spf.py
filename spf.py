@@ -3,7 +3,9 @@
 #uses dnspython - http://www.dnspython.org/
 import sys, re, dns.resolver
 
-def lookup_loop(lookup,x,y,spf,lspf,alookup,mxlookup):
+def lookup_loop(lookup):
+    x = y = 0
+    spf, lspf, alookup, mxlookup = ([] for z in range(4))
     #Primary Loop for processing initial DNS lookup and itterating through includes
     while lookup:
     #Choose Record type of lookup
@@ -79,15 +81,14 @@ def lookup_loop(lookup,x,y,spf,lspf,alookup,mxlookup):
             quit()
 
 def main():
-    x = y = 0
-    spf, lspf, lookup, alookup, mxlookup = ([] for z in range(5))
+    lookup = []
     if len(sys.argv) < 2:
         print("\nThis script recursively looks for spf records for a given domain name.")
         print("\nUsage: ./spf.py domain.com\n")
         quit()
     #First Lookup of Domain Passed as Argument - Added to lookup list
     lookup.append(sys.argv[1])
-    lookup_loop(lookup,x,y,spf,lspf,alookup,mxlookup)
+    lookup_loop(lookup)
 
 if __name__ == "__main__":
     main()
