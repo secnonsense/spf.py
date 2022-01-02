@@ -85,7 +85,7 @@ def lookup_loop(lookup):
         counter2 += 1
         print("\n=====================================")
         if counter2 > counter:
-            print("\n")
+            print("\nFull IP List: \n")
             print(','.join(all_ips))
             print("\n")
             quit()
