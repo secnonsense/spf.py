@@ -9,7 +9,7 @@ import dns.resolver
 def lookup_loop(lookup):
     """Main loop to do DNS lookups and parse out IP addresses"""
     counter = counter2 = 0
-    spf, lspf, alookup, mxlookup = ([] for z in range(4))
+    spf, lspf, alookup, mxlookup, all_ips = ([] for z in range(5))
     #Primary Loop for processing initial DNS lookup and itterating through includes
     while lookup:
     #Choose Record type of lookup
@@ -66,13 +66,17 @@ def lookup_loop(lookup):
                     ip_address = spf[i].split(":")
                     if "/" not in ip_address[1]:
                         print(ip_address[1] + "/32")
+                        all_ips.append(ip_address[1])
                     else:
                         print(ip_address[1])
+                        all_ips.append(ip_address[1])
                 elif "ip6:" in spf[i].lower():
                     ip6 = spf[i]
                     print(ip6[4:])
+                    all_ips.append(ip6[4:])
                 elif query_type == "A":
                     print(spf[i] + "/32")
+                    all_ips.append(spf[i] + "/32")
                 elif query_type == "MX" and len(spf[i]) > 3:
                     lookup.append(spf[i])
                     alookup.append(spf[i])
@@ -81,6 +85,8 @@ def lookup_loop(lookup):
         counter2 += 1
         print("\n=====================================")
         if counter2 > counter:
+            print("\n")
+            print(','.join(all_ips))
             print("\n")
             quit()
 
