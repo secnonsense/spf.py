@@ -46,6 +46,11 @@ def lookup_loop(lookup):
                     inc = spf[i].split(":")
                     lookup.append(inc[1])
                     counter += 1
+    #Add redirect to lookup up to capture spf flattening 
+                elif "redirect" in spf[i]:
+                    inc = spf[i].split("=")
+                    lookup.append(inc[1])
+                    counter += 1
     #Add a "A" records to lookup and alookup so their query can be handled properly
                 elif "a:" in spf[i].lower() and "ip6" not in spf[i].lower():
                     split_value = spf[i].split(":")
